@@ -1,3 +1,5 @@
-"""VarGate — context-aware QC scoring for variant calling."""
+"""
+VarGate - context-aware QC scoring for variant calling
+"""
 
-__version__ = "0.1.0"
+__version__ = "1.0.0"
