@@ -1,0 +1,29 @@
+local_data/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+build/
+dist/
+.eggs/
+.pytest_cache/
+.tox/
+.coverage
+htmlcov/
+
+# venv
+.venv/
+venv/
+env/
+
+# IDE / OS
+.DS_Store
+.idea/
+.vscode/
+
+# Vargate outputs (when run from repo root)
+/*_report.html
+/*_report.tsv
