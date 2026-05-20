@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ title }} — {{ label }}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16201c; --muted:#7c8a83; --line:#e8ebe9; --page:#f6f8f7; --card:#ffffff;
+  --green:#15a35a; --green-light:#74cf93; --amber:#e6a128; --red:#df574d;
+  --z-green:#e7f6ed; --z-orange:#fbf1dd; --z-red:#fbe9e6;
+  --disp:'Bricolage Grotesque',sans-serif; --body:'Hanken Grotesk',sans-serif; --mono:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--body);background:var(--page);color:var(--ink);
+  background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:22px 22px;
+  -webkit-font-smoothing:antialiased;padding:48px 24px 80px}
+.wrap{max-width:880px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:10px}
+.brand h1{font-family:var(--disp);font-weight:800;font-size:46px;letter-spacing:-1.5px}
+.brand .ver{font-family:var(--mono);font-size:14px;color:var(--muted);background:#eef1ef;
+  padding:4px 10px;border-radius:20px;align-self:flex-start;margin-top:6px}
+.subtitle{font-family:var(--disp);font-weight:500;font-size:16px;color:var(--muted);
+  text-align:center;margin-bottom:30px}
+.subtitle b{color:var(--ink);font-weight:700}
+.card{background:var(--card);border:1px solid var(--line);border-radius:24px;
+  padding:30px 34px;margin-bottom:26px;display:grid;grid-template-columns:200px 1fr;
+  grid-template-areas:"left right" "foot foot";gap:8px 38px;
+  box-shadow:0 1px 2px rgba(20,40,30,.04),0 18px 40px -28px rgba(20,40,30,.25)}
+.card-left{grid-area:left;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:6px;border-right:1px solid var(--line);padding-right:20px}
+.card-right{grid-area:right}
+.card-foot{grid-area:foot;display:flex;align-items:center;gap:14px;margin-top:18px;
+  padding-top:18px;border-top:1px solid var(--line)}
+/* ring */
+.ring{position:relative;width:148px;height:148px}
+.ring svg{width:100%;height:100%}
+.ring-track{fill:none;stroke:var(--line);stroke-width:11}
+.ring-fill{fill:none;stroke-width:11;stroke-linecap:round;transition:stroke-dasharray .9s ease}
+.v-pass .ring-fill{stroke:var(--green)} .v-warn .ring-fill{stroke:var(--amber)} .v-fail .ring-fill{stroke:var(--red)}
+.ring-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--disp);font-weight:800;font-size:42px;letter-spacing:-1px}
+.ring-pct span{font-size:20px;margin-top:8px;margin-left:2px;color:var(--muted)}
+.v-pass .ring-pct{color:var(--green)} .v-warn .ring-pct{color:var(--amber)} .v-fail .ring-pct{color:var(--red)}
+.verdict{font-family:var(--disp);font-weight:800;font-size:30px;letter-spacing:.5px;margin-top:8px}
+.v-pass{color:var(--green)} .v-warn{color:var(--amber)} .v-fail{color:var(--red)}
+.ratio{font-family:var(--mono);font-size:16px;font-weight:600}
+.ratio span{color:var(--muted);font-weight:500;font-size:12px}
+/* metric bar */
+.metric{display:grid;grid-template-columns:170px 1fr 100px;align-items:center;gap:16px;
+  padding:9px 0;border-bottom:1px solid #f1f4f2}
+.metric:last-child{border-bottom:none}
+.m-head{display:flex;flex-direction:column;gap:2px}
+.m-label{font-size:13.5px;font-weight:600}
+.m-weight{font-size:9.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+.w-critical{color:#c4564c} .w-major{color:#c08a1e}
+.track{position:relative;height:20px;border-radius:10px;overflow:visible;background:#f3f5f4}
+.zone{position:absolute;top:0;height:100%}
+.zone:first-of-type{border-top-left-radius:10px;border-bottom-left-radius:10px}
+.z-green{background:var(--z-green)} .z-orange{background:var(--z-orange)} .z-red{background:var(--z-red)}
+.threshold{position:absolute;top:-3px;height:26px;border-left:2px dashed #9aa6a0}
+.threshold-lbl{position:absolute;top:-15px;transform:translateX(-50%);font-size:8.5px;
+  letter-spacing:.3px;color:#9aa6a0;font-weight:600;white-space:nowrap}
+.marker{position:absolute;top:50%;width:15px;height:15px;border-radius:50%;
+  transform:translate(-50%,-50%);border:3px solid #fff;box-shadow:0 1px 4px rgba(20,40,30,.3);z-index:2}
+.c-dark_green{background:var(--green)} .c-light_green{background:var(--green-light)}
+.c-orange{background:var(--amber)} .c-red{background:var(--red)}
+.m-val{font-family:var(--mono);font-size:14px;font-weight:600;text-align:right}
+.m-val.c-dark_green,.m-val.c-light_green{color:var(--green)}
+.m-val.c-orange{color:var(--amber)} .m-val.c-red{color:var(--red)} .m-val.c-na{color:var(--muted)}
+/* foot */
+.role-tag{font-size:12px;font-weight:600;padding:3px 11px;border-radius:7px;text-transform:lowercase}
+.role-tumor{background:#fdeee9;color:#c4564c} .role-normal{background:#e9f2ff;color:#3b6bb0}
+.sid{font-family:var(--mono);font-size:14px;color:var(--muted)}
+/* overview */
+.overview{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px 34px 30px;
+  box-shadow:0 1px 2px rgba(20,40,30,.04),0 18px 40px -28px rgba(20,40,30,.25)}
+.ov-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.ov-title{font-family:var(--disp);font-weight:700;font-size:20px}
+.ov-verdict{font-family:var(--disp);font-weight:800;font-size:22px}
+.squares{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.sq-wrap{display:flex;flex-direction:column;align-items:center;gap:10px}
+.sq-verdict{font-family:var(--disp);font-weight:800;font-size:22px;display:flex;align-items:baseline;gap:8px}
+.sq-verdict span{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--muted)}
+.square{width:100%;aspect-ratio:1.7/1;border-radius:18px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:14px;border-top:7px solid rgba(0,0,0,.07)}
+.sq-dark-green{background:var(--green)} .sq-light-green{background:var(--green-light)}
+.sq-orange{background:var(--amber)} .sq-red{background:var(--red)}
+.sq-pct{font-family:var(--disp);font-weight:800;font-size:56px;color:#0d3d22;letter-spacing:-2px}
+.sq-orange .sq-pct,.sq-red .sq-pct{color:#fff}
+.ov-ref{font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:22px;text-align:center}
+.ov-meta{font-family:var(--body);font-size:12.5px;color:var(--muted);margin-top:6px;text-align:center}
+@media(max-width:680px){.card{grid-template-columns:1fr;grid-template-areas:"left" "right" "foot"}
+  .card-left{border-right:none;border-bottom:1px solid var(--line);padding:0 0 18px}
+  .metric{grid-template-columns:130px 1fr 80px;gap:10px}}
+</style>
+</head>
+<body>
+
+{# Reusable ring macro: comfort % donut + verdict color #}
+{%- macro ring(comfort, vcls) -%}
+{% set r = 52 %}
+{% set circ = 2 * 3.141592653589793 * r %}
+{% set dash = comfort / 100 * circ %}
+<div class="ring {{ vcls }}">
+  <svg viewBox="0 0 120 120">
+    <circle class="ring-track" cx="60" cy="60" r="{{ r }}"></circle>
+    <circle class="ring-fill"  cx="60" cy="60" r="{{ r }}"
+            stroke-dasharray="{{ '%.1f'|format(dash) }} {{ '%.1f'|format(circ) }}"
+            transform="rotate(-90 60 60)"></circle>
+  </svg>
+  <div class="ring-pct">{{ comfort }}<span>%</span></div>
+</div>
+{%- endmacro -%}
+
+<div class="wrap">
+
+  <div class="brand">
+    <h1>{{ title }}</h1>
+    <span class="ver">v{{ version }}</span>
+  </div>
+  <div class="subtitle">{{ profile_name }} profile &middot; <b>{{ label }}</b></div>
+
+  {% for s in samples %}
+  <section class="card">
+    <div class="card-left">
+      {{ ring(s.comfort, s.verdict_class) }}
+      <div class="verdict {{ s.verdict_class }}">{{ s.verdict_label }}</div>
+      <div class="ratio">{{ s.n_green }}/{{ s.n_total }} <span>green</span></div>
+    </div>
+    <div class="card-right">
+      {% for r in s.rows %}
+      <div class="metric">
+        <div class="m-head">
+          <span class="m-label">{{ r.label }}</span>
+          <span class="m-weight w-{{ r.weight }}">{{ r.weight }}</span>
+        </div>
+        <div class="track">
+          {% if r.color %}
+            {% for a, b, k in r.segs %}<span class="zone z-{{ k }}" style="left:{{ '%.2f'|format(a) }}%;width:{{ '%.2f'|format(b - a) }}%"></span>{% endfor %}
+            {% for m in r.marks %}<span class="threshold" style="left:{{ '%.2f'|format(m) }}%"></span>{% endfor %}
+            {% if r.marks %}<span class="threshold-lbl" style="left:{{ '%.2f'|format(r.marks[0]) }}%">threshold</span>{% endif %}
+            <span class="marker c-{{ r.color }}" style="left:{{ '%.2f'|format(r.vpos) }}%"></span>
+          {% else %}
+            <span class="zone z-green" style="left:0;width:100%;opacity:.3"></span>
+          {% endif %}
+        </div>
+        <div class="m-val c-{{ r.color or 'na' }}">{{ r.formatted }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="card-foot">
+      <span class="role-tag role-{{ s.role }}">{{ s.role }} sample</span>
+      <span class="sid">{{ s.sample_id }}</span>
+    </div>
+  </section>
+  {% endfor %}
+
+  <section class="overview">
+    <div class="ov-head">
+      <span class="ov-title">Patient overview</span>
+      <span class="ov-verdict {{ patient.verdict_class }}">{{ patient.verdict_label }}</span>
+    </div>
+    <div class="squares">
+      {% for s in samples %}
+      <div class="sq-wrap">
+        <div class="sq-verdict {{ s.verdict_class }}">
+          {{ s.verdict_label }}<span>{{ s.n_green }}/{{ s.n_total }}</span>
+        </div>
+        <div class="square sq-{{ s.square_color }}">
+          <span class="sq-pct">{{ s.comfort }}%</span>
+          <span class="role-tag role-{{ s.role }}">{{ s.role }} sample</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="ov-ref">{{ label }}</div>
+    {% if patient.weakest_role %}
+    <div class="ov-meta">Patient verdict is driven by the <b>{{ patient.weakest_role }}</b> sample.</div>
+    {% endif %}
+  </section>
+
+</div>
+</body>
+</html>
