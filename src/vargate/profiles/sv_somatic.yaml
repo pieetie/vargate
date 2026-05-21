@@ -65,6 +65,7 @@ comfort:
 
 metrics:
 
+  # ---- critical ----------------------------------------------------------
   median_coverage:
     label: "Median coverage"
     weight: critical
@@ -88,6 +89,15 @@ metrics:
     scale: [200, 700]
     format: "{:.0f} bp"
 
+  chimera_rate:
+    label: "Chimera rate"
+    weight: critical
+    direction: lower_better
+    thresholds: { green: 0.025, orange: 0.05 }
+    scale: [0, 0.08]
+    format: "{:.2%}"
+
+  # ---- major -------------------------------------------------------------
   insert_cv:
     label: "Insert CV"
     weight: major
@@ -96,19 +106,11 @@ metrics:
     scale: [0, 0.70]
     format: "{:.2f}"
 
-  chimera_rate:
-    label: "Chimera rate"
-    weight: critical
-    direction: lower_better
-    thresholds: { green: 0.03, orange: 0.05 }
-    scale: [0, 0.08]
-    format: "{:.2%}"
-
   align_rate:
     label: "Alignment rate"
     weight: major
     direction: higher_better
-    thresholds: { green: 0.95, orange: 0.90 }
+    thresholds: { green: 0.98, orange: 0.90 }
     scale: [0.85, 1.0]
     format: "{:.2%}"
 
@@ -119,6 +121,8 @@ metrics:
     thresholds: { green: 0.10, orange: 0.20 }
     scale: [0, 0.25]
     format: "{:.2%}"
+
+  # ---- minor -------------------------------------------------------------
 
   pct_20x:
     label: "Bases >= 20x"
