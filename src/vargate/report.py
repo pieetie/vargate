@@ -33,17 +33,15 @@ _VERDICT_CLASS = {GREEN: "v-pass", ORANGE: "v-warn", RED: "v-fail"}
 
 def _square_color(sr: SampleResult) -> str:
     """
-    Pick the overview-square color from the worst metric of the sample
-    Mirrors the verdict severity, but downgrades from dark to light green
-    when the comfort is below a small threshold (mirrors the per-metric
-    light/dark distinction at sample level)
+    Pick the overview-square fill color from the sample verdict
+    The comfort percentage is encoded by the fill height (water-glass
+    effect), so a single class per verdict is enough.
     """
     if sr.verdict == ORANGE:
         return "orange"
     if sr.verdict > ORANGE:
         return "red"
-    # GREEN: dark when comfortable, light when just barely
-    return "dark-green" if sr.comfort >= 97 else "light-green"
+    return "green"
 
 
 def _sample_ctx(sr: SampleResult) -> dict:

@@ -20,9 +20,9 @@ body{font-family:var(--body);background:var(--page);color:var(--ink);
   -webkit-font-smoothing:antialiased;padding:48px 24px 80px}
 .wrap{max-width:880px;margin:0 auto}
 .brand{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:10px}
-.brand h1{font-family:var(--disp);font-weight:800;font-size:46px;letter-spacing:-1.5px}
+.brand h1{font-family:var(--disp);font-weight:800;font-size:46px;letter-spacing:-1.5px;line-height:1}
 .brand .ver{font-family:var(--mono);font-size:14px;color:var(--muted);background:#eef1ef;
-  padding:4px 10px;border-radius:20px;align-self:flex-start;margin-top:6px}
+  padding:4px 10px;border-radius:20px;align-self:center}
 .subtitle{font-family:var(--disp);font-weight:500;font-size:16px;color:var(--muted);
   text-align:center;margin-bottom:30px}
 .subtitle b{color:var(--ink);font-weight:700}
@@ -61,16 +61,15 @@ body{font-family:var(--body);background:var(--page);color:var(--ink);
 .zone{position:absolute;top:0;height:100%}
 .zone:first-of-type{border-top-left-radius:10px;border-bottom-left-radius:10px}
 .z-green{background:var(--z-green)} .z-orange{background:var(--z-orange)} .z-red{background:var(--z-red)}
-.threshold{position:absolute;top:-3px;height:26px;border-left:2px dashed #9aa6a0}
+.threshold{position:absolute;top:-3px;height:26px;border-left:2px dashed #9aa6a0;margin-left:-1px}
 .threshold-lbl{position:absolute;top:-15px;transform:translateX(-50%);font-size:8.5px;
   letter-spacing:.3px;color:#9aa6a0;font-weight:600;white-space:nowrap}
 .marker{position:absolute;top:50%;width:15px;height:15px;border-radius:50%;
   transform:translate(-50%,-50%);border:3px solid #fff;box-shadow:0 1px 4px rgba(20,40,30,.3);z-index:2}
 .c-dark_green{background:var(--green)} .c-light_green{background:var(--green-light)}
 .c-orange{background:var(--amber)} .c-red{background:var(--red)}
-.m-val{font-family:var(--mono);font-size:14px;font-weight:600;text-align:right}
-.m-val.c-dark_green,.m-val.c-light_green{color:var(--green)}
-.m-val.c-orange{color:var(--amber)} .m-val.c-red{color:var(--red)} .m-val.c-na{color:var(--muted)}
+.m-val{font-family:var(--mono);font-size:14px;font-weight:600;text-align:right;color:var(--ink)}
+.m-val.c-na{color:var(--muted)}
 /* foot */
 .role-tag{font-size:12px;font-weight:600;padding:3px 11px;border-radius:7px;text-transform:lowercase}
 .role-tumor{background:#fdeee9;color:#c4564c} .role-normal{background:#e9f2ff;color:#3b6bb0}
@@ -86,11 +85,15 @@ body{font-family:var(--body);background:var(--page);color:var(--ink);
 .sq-verdict{font-family:var(--disp);font-weight:800;font-size:22px;display:flex;align-items:baseline;gap:8px}
 .sq-verdict span{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--muted)}
 .square{width:100%;aspect-ratio:1.7/1;border-radius:18px;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:14px;border-top:7px solid rgba(0,0,0,.07)}
-.sq-dark-green{background:var(--green)} .sq-light-green{background:var(--green-light)}
-.sq-orange{background:var(--amber)} .sq-red{background:var(--red)}
-.sq-pct{font-family:var(--disp);font-weight:800;font-size:56px;color:#0d3d22;letter-spacing:-2px}
-.sq-orange .sq-pct,.sq-red .sq-pct{color:#fff}
+  align-items:center;justify-content:center;gap:14px;overflow:hidden;
+  background:linear-gradient(to top,
+    var(--sq-fill) var(--sq-fill-pct,100%),
+    var(--sq-empty) var(--sq-fill-pct,100%));
+  --sq-empty:#eef1ef}
+.sq-green {--sq-fill:var(--green)}
+.sq-orange{--sq-fill:var(--amber)}
+.sq-red   {--sq-fill:var(--red)}
+.sq-pct{font-family:var(--disp);font-weight:800;font-size:56px;color:var(--ink);letter-spacing:-2px}
 .ov-ref{font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:22px;text-align:center}
 .ov-meta{font-family:var(--body);font-size:12.5px;color:var(--muted);margin-top:6px;text-align:center}
 @media(max-width:680px){.card{grid-template-columns:1fr;grid-template-areas:"left" "right" "foot"}
@@ -170,7 +173,7 @@ body{font-family:var(--body);background:var(--page);color:var(--ink);
         <div class="sq-verdict {{ s.verdict_class }}">
           {{ s.verdict_label }}<span>{{ s.n_green }}/{{ s.n_total }}</span>
         </div>
-        <div class="square sq-{{ s.square_color }}">
+        <div class="square sq-{{ s.square_color }}" style="--sq-fill-pct:{{ s.comfort }}%">
           <span class="sq-pct">{{ s.comfort }}%</span>
           <span class="role-tag role-{{ s.role }}">{{ s.role }} sample</span>
         </div>
