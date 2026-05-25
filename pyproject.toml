@@ -25,4 +25,4 @@ vargate = "vargate.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-vargate = ["profiles/*.yaml", "templates/*.j2"]
+vargate = ["profiles/*.yaml", "templates/*"]
