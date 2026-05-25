@@ -1,13 +1,14 @@
 <h1>
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/vector-svg/logo-dark-bg.svg">
-  <source media="(prefers-color-scheme: light)" srcset="docs/assets/vector-svg/logo-black-transparent.svg">
-  <img src="docs/assets/vector-svg/logo-black-transparent.svg" alt="VarGate logo" width="450">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/pieetie/vargate/main/docs/assets/vector-svg/logo-dark-bg.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/pieetie/vargate/main/docs/assets/vector-svg/logo-black-transparent.svg">
+  <img src="https://raw.githubusercontent.com/pieetie/vargate/main/docs/assets/vector-svg/logo-black-transparent.svg" alt="VarGate logo" width="450">
 </picture>
 </h1>
 
 ### Turn post-alignment QC metrics into a PASS / WARN / FAIL verdict you can act on
 
+[![PyPI version](https://img.shields.io/pypi/v/vargate.svg)](https://pypi.org/project/vargate/)
 [![License](https://img.shields.io/pypi/l/vargate)](https://github.com/pieetie/vargate/blob/main/LICENSE)
 
 ---
@@ -17,7 +18,7 @@
 It was built for somatic variant calling and defaults to that workflow, but YAML profiles allow thresholds and rules to be customized for other workflows. It processes one patient at a time and fits into Snakemake loops over wildcards.
 
 <p align="center">
-  <img src="docs/assets/preview/preview.png" alt="VarGate QC report preview" width="800" style="border-radius: 12px;">
+  <img src="https://raw.githubusercontent.com/pieetie/vargate/main/docs/assets/preview/preview.png" alt="VarGate QC report preview" width="800" style="border-radius: 12px;">
 </p>
 
 VarGate ingests Picard `CollectWgsMetrics`, `CollectAlignmentSummaryMetrics`, `CollectInsertSizeMetrics`, and optionally `CollectGcBiasMetrics`, plus biobambam2 `bammarkduplicates2`, and writes a self-contained HTML report and a TSV summary.
@@ -59,7 +60,7 @@ Produces `patient1_qc.html` (self-contained report) and `patient1_qc.tsv`.
 ## License
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/png/logo-05.png">
-  <source media="(prefers-color-scheme: light)" srcset="docs/assets/png/logo-08.png">
-  <img src="docs/assets/png/logo-08.png" alt="VarGate icon" width="14" style="vertical-align: -1px; border-radius: 3px;">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/pieetie/vargate/main/docs/assets/png/logo-05.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/pieetie/vargate/main/docs/assets/png/logo-08.png">
+  <img src="https://raw.githubusercontent.com/pieetie/vargate/main/docs/assets/png/logo-08.png" alt="VarGate icon" width="14" style="vertical-align: -1px; border-radius: 3px;">
 </picture> Distributed under the <a href="./LICENSE">MIT License</a>.
