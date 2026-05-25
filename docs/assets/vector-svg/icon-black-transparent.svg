@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Calque_2" data-name="Calque 2" xmlns="http://www.w3.org/2000/svg" width="365.92" height="332.56" viewBox="0 0 365.92 332.56">
+  <g id="logo">
+    <g>
+      <circle cx="182.96" cy="299.2" r="33.36"/>
+      <circle cx="332.56" cy="149.6" r="33.36"/>
+      <circle cx="33.36" cy="149.6" r="33.36"/>
+      <circle cx="241.08" cy="207.72" r="33.36"/>
+      <circle cx="299.2" cy="265.84" r="33.36"/>
+      <circle cx="299.2" cy="33.36" r="33.36"/>
+      <circle cx="241.08" cy="91.48" r="33.36"/>
+      <g>
+        <circle cx="66.72" cy="33.36" r="33.36"/>
+        <circle cx="124.84" cy="91.48" r="33.36"/>
+        <circle cx="182.96" cy="149.6" r="33.36"/>
+        <circle cx="124.84" cy="207.72" r="33.36"/>
+        <circle cx="66.72" cy="265.84" r="33.36"/>
+      </g>
+    </g>
+  </g>
+</svg>
