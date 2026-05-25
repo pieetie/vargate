@@ -23,6 +23,7 @@ from .scoring import (
 
 
 TEMPLATES_DIR = Path(__file__).resolve().parent / "templates"
+LOGO_SVG_PATH = TEMPLATES_DIR / "logo-black-transparent.svg"
 
 _VERDICT_CLASS = {GREEN: "v-pass", ORANGE: "v-warn", RED: "v-fail"}
 
@@ -69,9 +70,11 @@ def render_html(patient: PatientResult, *, profile: dict, label: str) -> str:
 
     report_cfg = profile.get("report", {})
     title = report_cfg.get("title", "VarGate")
+    logo_svg = LOGO_SVG_PATH.read_text(encoding="utf-8")
 
     return template.render(
         title=title,
+        logo_svg=logo_svg,
         version=__version__,
         profile_name=profile.get("profile", "unknown"),
         label=label,
