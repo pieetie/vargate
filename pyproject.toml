@@ -16,7 +16,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=7.0"]
+dev = [
+    "pytest>=7.0",
+    "mypy>=1.0",
+    "types-PyYAML",
+]
 
 [project.scripts]
 vargate = "vargate.cli:main"
@@ -26,3 +30,6 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 vargate = ["profiles/*.yaml", "templates/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

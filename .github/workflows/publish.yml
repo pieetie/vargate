@@ -1,0 +1,114 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  verify-tag:
+    name: Verify tag matches pyproject version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check tag == project version
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME}"
+          tag_version="${tag#v}"
+          project_version=$(python -c "import tomllib, pathlib; print(tomllib.loads(pathlib.Path('pyproject.toml').read_text())['project']['version'])")
+          echo "Tag:     $tag (parsed: $tag_version)"
+          echo "Project: $project_version"
+          if [[ "$tag_version" != "$project_version" ]]; then
+            echo "::error::Tag ($tag_version) does not match pyproject.toml version ($project_version)"
+            exit 1
+          fi
+
+  quality:
+    name: Quality gate before publish
+    needs: verify-tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install package
+        run: |
+          python -m pip install -U pip
+          python -m pip install -e ".[dev]"
+
+      - name: Mypy
+        run: mypy src
+
+      - name: Pytest
+        run: pytest
+
+      - name: CLI smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          tmp=$(mktemp -d)
+          vargate --tumor T1 --normal N1 --input tests/fixtures/pair --output "$tmp/qc" --quiet
+          test -s "$tmp/qc.html"
+          test -s "$tmp/qc.tsv"
+          grep -q "<html" "$tmp/qc.html"
+          head -1 "$tmp/qc.tsv" | grep -q "patient_verdict"
+
+  build:
+    name: Build sdist and wheel
+    needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build and twine
+        run: python -m pip install -U pip build twine
+
+      - name: Build
+        run: python -m build
+
+      - name: Twine check
+        run: twine check dist/*
+
+      - name: Upload artefacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/vargate
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Download artefacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Publish
+        uses: pypa/gh-action-pypi-publish@release/v1
