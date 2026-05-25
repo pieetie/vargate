@@ -10,6 +10,7 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/vargate.svg)](https://pypi.org/project/vargate/)
 [![License](https://img.shields.io/pypi/l/vargate)](https://github.com/pieetie/vargate/blob/main/LICENSE)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20376751-blue)](https://doi.org/10.5281/zenodo.20376751)
 
 ---
 
@@ -56,6 +57,12 @@ Produces `patient1_qc.html` (self-contained report) and `patient1_qc.tsv`.
 
 - **Logo and visual identity** - [Elisa Perrin](https://www.linkedin.com/in/elisaperrin/)
 - **Claude** (Anthropic) - assisted with tests, documentation, refactoring, HTML report styling, script cleanup, and CLI extensions to cover more use cases
+
+## Citation
+
+If you use VarGate in your work, please cite it via the [`CITATION.cff`](./CITATION.cff) file or directly:
+
+> Natiez, P. (2026). *VarGate* (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.20376751
 
 ## License
 

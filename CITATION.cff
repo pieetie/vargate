@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "Please consider citing VarGate if you use it"
+title: "VarGate"
+authors:
+  - family-names: "Natiez"
+    given-names: "Pierre"
+version: "1.0.0"
+date-released: "2026-05-25"
+license: MIT
+repository-code: "https://github.com/pieetie/vargate"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.20376751"
