@@ -1,0 +1,11 @@
+## htsjdk.samtools.metrics.StringHeader
+# CollectAlignmentSummaryMetrics
+## METRICS CLASS	picard.analysis.AlignmentSummaryMetrics
+CATEGORY	PCT_PF_READS_ALIGNED	PCT_CHIMERAS	PF_MISMATCH_RATE
+FIRST_OF_PAIR	0.500	0.900	0.900
+SECOND_OF_PAIR	0.500	0.900	0.900
+PAIR	0.990	0.010	0.005
+
+## HISTOGRAM	java.lang.Integer
+READ_LENGTH	count
+0	0

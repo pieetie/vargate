@@ -1,0 +1,9 @@
+## htsjdk.samtools.metrics.StringHeader
+# CollectInsertSizeMetrics
+## METRICS CLASS	picard.analysis.InsertSizeMetrics
+MEDIAN_INSERT_SIZE	STANDARD_DEVIATION
+430	145
+
+## HISTOGRAM	java.lang.Integer
+insert_size	count
+0	0

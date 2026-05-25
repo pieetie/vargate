@@ -1,0 +1,9 @@
+## htsjdk.samtools.metrics.StringHeader
+# CollectWgsMetrics
+## METRICS CLASS	picard.analysis.WgsMetrics
+MEDIAN_COVERAGE	PCT_20X	FOLD_80_BASE_PENALTY	PCT_EXC_MAPQ
+35	0.93	1.15	0.06
+
+## HISTOGRAM	java.lang.Integer
+coverage	count
+0	0

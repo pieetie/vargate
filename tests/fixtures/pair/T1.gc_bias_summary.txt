@@ -1,0 +1,5 @@
+## htsjdk.samtools.metrics.StringHeader
+# CollectGcBiasMetrics
+## METRICS CLASS	picard.analysis.GcBiasSummaryMetrics
+ACCUMULATION_LEVEL	AT_DROPOUT	GC_DROPOUT
+All Reads	2.00	0.50

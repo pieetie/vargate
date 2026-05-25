@@ -1,0 +1,175 @@
+# =============================================================================
+# VarGate profile: sv_somatic
+# =============================================================================
+profile: sv_somatic
+ambition: viable
+
+description: |
+  Sample QC scoring profile for somatic SV calling with Manta + DELLY.
+
+# ---------------------------------------------------------------------------
+# Report-time defaults (overridable from the CLI)
+# ---------------------------------------------------------------------------
+report:
+  title:        "VarGate"
+  default_label: "Sample QC report"
+
+# ---------------------------------------------------------------------------
+# Comfort score parameters
+# ---------------------------------------------------------------------------
+# The verdict (PASS / WARN / FAIL) is the worst-case weakest-link result.
+# The "comfort" percentage is a separate, finer-grained signal that says
+# "how comfortably above the green threshold is this sample?". It is the
+# mean of per-metric weights below.
+#
+# tolerance: fraction of the green zone width (or distance from the green
+# threshold to the scale bound) considered "just barely green". A value in
+# that band is rendered as light-green; comfortably green values are dark.
+#
+# weights: per-color contribution to the comfort mean.
+comfort:
+  tolerance: 0.15
+  weights:
+    dark_green:  1.0
+    light_green: 0.9
+    orange:      0.5
+    red:         0.0
+
+# ---------------------------------------------------------------------------
+# Metrics
+# ---------------------------------------------------------------------------
+# For every metric:
+#   weight:        critical | major | minor
+#                    - critical: red metric -> sample is red.
+#                    - major:    red metric -> sample is orange at worst.
+#                    - minor:    no effect on the verdict (displayed only).
+#   direction:     higher_better | lower_better | band
+#   role_specific: true if thresholds differ for tumor vs normal
+#   thresholds:    green and orange boundaries (see direction)
+#   scale:         display range [lo, hi] for the report bar (UI only)
+#   format:        Python format spec for the value label (UI only)
+#   label:         display name (UI only)
+#   optional:      if true, missing metric is "n/a" and excluded from scoring
+#
+# Threshold semantics by direction:
+#   higher_better: green if val >= green
+#                  orange if val >= orange
+#                  red otherwise
+#   lower_better:  green if val <= green
+#                  orange if val <= orange
+#                  red otherwise
+#   band:          green = [g_lo, g_hi]
+#                  orange = [o_lo, g_lo) union (g_hi, o_hi]
+#                  red otherwise
+#                  (constraint: o_lo <= g_lo <= g_hi <= o_hi)
+
+metrics:
+
+  # ---- critical ----------------------------------------------------------
+  median_coverage:
+    label: "Median coverage"
+    weight: critical
+    direction: higher_better
+    role_specific: true
+    thresholds:
+      tumor:  { green: 30, orange: 20 }
+      normal: { green: 25, orange: 15 }
+    scale:
+      tumor:  [0, 60]
+      normal: [0, 50]
+    format: "{:.0f}x"
+
+  insert_median:
+    label: "Median insert size"
+    weight: critical
+    direction: band
+    thresholds:
+      green:  [300, 550]
+      orange: [250, 650]
+    scale: [200, 700]
+    format: "{:.0f} bp"
+
+  chimera_rate:
+    label: "Chimera rate"
+    weight: critical
+    direction: lower_better
+    thresholds: { green: 0.025, orange: 0.05 }
+    scale: [0, 0.08]
+    format: "{:.2%}"
+
+  # ---- major -------------------------------------------------------------
+  insert_cv:
+    label: "Insert CV"
+    weight: major
+    direction: lower_better
+    thresholds: { green: 0.40, orange: 0.55 }
+    scale: [0, 0.70]
+    format: "{:.2f}"
+
+  align_rate:
+    label: "Alignment rate"
+    weight: major
+    direction: higher_better
+    thresholds: { green: 0.98, orange: 0.90 }
+    scale: [0.85, 1.0]
+    format: "{:.2%}"
+
+  dup_rate:
+    label: "Duplication rate"
+    weight: major
+    direction: lower_better
+    thresholds: { green: 0.10, orange: 0.20 }
+    scale: [0, 0.25]
+    format: "{:.2%}"
+
+  # ---- minor -------------------------------------------------------------
+
+  pct_20x:
+    label: "Bases >= 20x"
+    weight: minor
+    direction: higher_better
+    thresholds: { green: 0.85, orange: 0.75 }
+    scale: [0.60, 1.0]
+    format: "{:.1%}"
+
+  fold80:
+    label: "FOLD-80"
+    weight: minor
+    direction: lower_better
+    thresholds: { green: 1.3, orange: 1.6 }
+    scale: [1.0, 1.8]
+    format: "{:.2f}"
+
+  mismatch_rate:
+    label: "Mismatch rate"
+    weight: minor
+    direction: lower_better
+    thresholds: { green: 0.01, orange: 0.02 }
+    scale: [0, 0.03]
+    format: "{:.2%}"
+
+  pct_exc_mapq:
+    label: "Low-MAPQ exclusion"
+    weight: minor
+    direction: lower_better
+    thresholds: { green: 0.10, orange: 0.20 }
+    scale: [0, 0.30]
+    format: "{:.1%}"
+
+  at_dropout:
+    label: "AT dropout"
+    weight: minor
+    direction: lower_better
+    optional: true
+    thresholds: { green: 5, orange: 10 }
+    scale: [0, 12]
+    format: "{:.2f}"
+
+  gc_dropout:
+    label: "GC dropout"
+    weight: minor
+    direction: lower_better
+    optional: true
+    thresholds: { green: 2, orange: 5 }
+    scale: [0, 6]
+    format: "{:.2f}"
